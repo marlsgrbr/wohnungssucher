@@ -27,4 +27,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Script ausführen
-        run: python wohnungssuche.py
+        run: python wohnungssucher.py
