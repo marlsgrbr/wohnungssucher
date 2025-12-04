@@ -1,0 +1,30 @@
+name: Wohnungssuche
+
+on:
+  schedule:
+    # Cron: Minute Stunde Tag Monat Wochentag
+    # Hier: alle 2 Stunden zur Minute 0
+    - cron: "0 */2 * * *"
+  workflow_dispatch:  # ermöglicht manuelles Starten per Knopf
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Abhängigkeiten installieren (falls vorhanden)
+        if: hashFiles('requirements.txt') != ''
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Script ausführen
+        run: python wohnungssuche.py
